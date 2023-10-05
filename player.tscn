@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://qykwxlkhnxy0"]
+
+[ext_resource type="PackedScene" uid="uid://b1x8gngfgsham" path="res://rb_player.tscn" id="1_at6da"]
+[ext_resource type="Script" path="res://CamerFollow.gd" id="2_3f0gt"]
+[ext_resource type="Script" path="res://GroundCheck.gd" id="3_nf08y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rccep"]
+
+[node name="Player" type="Node3D"]
+
+[node name="RBPlayer" parent="." instance=ExtResource("1_at6da")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.962218, 0.27228, 0, -0.27228, 0.962218, 0, 3, 7)
+current = true
+script = ExtResource("2_3f0gt")
+orbit_radius = 14.0
+
+[node name="GroundCheck" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+collision_layer = 0
+script = ExtResource("3_nf08y")
+
+[node name="GroundCollider" type="CollisionShape3D" parent="GroundCheck"]
+shape = SubResource("BoxShape3D_rccep")
+
+[connection signal="body_entered" from="GroundCheck" to="GroundCheck" method="_on_body_entered"]
+[connection signal="body_exited" from="GroundCheck" to="GroundCheck" method="_on_body_exited"]
