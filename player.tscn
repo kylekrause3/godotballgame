@@ -1,10 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://qykwxlkhnxy0"]
+[gd_scene load_steps=6 format=3 uid="uid://qykwxlkhnxy0"]
 
 [ext_resource type="PackedScene" uid="uid://b1x8gngfgsham" path="res://rb_player.tscn" id="1_at6da"]
 [ext_resource type="Script" path="res://CamerFollow.gd" id="2_3f0gt"]
 [ext_resource type="Script" path="res://GroundCheck.gd" id="3_nf08y"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rccep"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7d5wp"]
+font_size = 50
 
 [node name="Player" type="Node3D"]
 
@@ -23,6 +26,22 @@ script = ExtResource("3_nf08y")
 
 [node name="GroundCollider" type="CollisionShape3D" parent="GroundCheck"]
 shape = SubResource("BoxShape3D_rccep")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.003
+anchor_top = 0.775
+anchor_right = 0.12
+anchor_bottom = 0.886
+offset_left = -0.456
+offset_top = -0.200012
+offset_right = -0.240005
+offset_bottom = -0.128052
+grow_vertical = 2
+text = "000"
+label_settings = SubResource("LabelSettings_7d5wp")
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [connection signal="body_entered" from="GroundCheck" to="GroundCheck" method="_on_body_entered"]
 [connection signal="body_exited" from="GroundCheck" to="GroundCheck" method="_on_body_exited"]

@@ -46,12 +46,9 @@ shape = SubResource("BoxShape3D_tf7e4")
 [node name="Player" parent="." instance=ExtResource("3_4brdu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.64663, 0.762804, 0, -0.762804, 0.64663, 0, 35.6219, 36.6002)
-light_energy = 11.158
-light_volumetric_fog_energy = 14.761
-spot_range = 131.0
-spot_angle = 73.196
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4ecyc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.79451, 0.607251, 0, -0.607251, -0.79451, 0, 0, 0)
+shadow_enabled = true
