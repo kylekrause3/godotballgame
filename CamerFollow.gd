@@ -18,15 +18,18 @@ func _ready():
 	
 	view_sensitivity *= view_sensitivity_scalar
 
-func _process(delta):
+func _process(_delta):
 	self.position = target.position
 	
 	self.position += orbit_radius * get_backward(self.rotation)
+	# TODO: Add collider to camera so you can free rotate if theres no floor
+	if(self.position.y - target.position.y < 0):
+		self.position.y = target.position.y
 
 func _input(event):	
 	if event is InputEventMouseMotion and do_mouse_movement:
 		self.rotation_degrees.x -= event.relative.y * view_sensitivity
-		self.rotation_degrees.x = clamp(self.rotation_degrees.x, -89, 0)
+		self.rotation_degrees.x = clamp(self.rotation_degrees.x, -89, 89)
 		self.rotation_degrees.y -= event.relative.x * view_sensitivity
 		
 		if orient_target:

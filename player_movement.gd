@@ -18,6 +18,9 @@ var rolling_resistance : float = 0.3
 
 var applied_speed : float = base_speed
 
+var do_teleport : bool = false
+var teleport_location : Vector3 = Vector3.ZERO
+
 
 func _ready():
 	pass
@@ -56,9 +59,19 @@ func _integrate_forces(state):
 		state.linear_velocity = state.linear_velocity.normalized() * max_velocity
 	# i should actually look up how to do a proper friction system 
 	# apply force of friction
-	if state.linear_velocity.length() > 0.2 and is_on_floor:
+	if state.linear_velocity.length() > 0 and is_on_floor:
 		var friction : Vector3 = Vector3.ONE * rolling_resistance * 9.8 * self.mass
 		apply_central_force(state.linear_velocity.normalized() * -1 * friction)
+	if do_teleport:
+		var new_transform : Transform3D = state.get_transform()
+		new_transform.origin.x = teleport_location.x
+		new_transform.origin.y = teleport_location.y
+		new_transform.origin.z = teleport_location.z
+		state.set_transform(new_transform)
+		state.linear_velocity = Vector3.ZERO
+		state.angular_velocity = Vector3.ZERO
+		do_teleport = false
+		
 
 
 func _input(event):
@@ -67,10 +80,8 @@ func _input(event):
 
 
 func teleport(pos : Vector3) -> void:
-	apply_central_impulse(-self.linear_velocity)
-	self.set_position(pos)
-	self.linear_velocity = Vector3.ZERO
-	self.angular_velocity = Vector3.ZERO
+	do_teleport = true
+	teleport_location = pos
 
 
 func change_orientation(y_rot : float) -> void:
