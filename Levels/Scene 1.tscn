@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://dy6ow1x3nitpe"]
+[gd_scene load_steps=12 format=3 uid="uid://dy6ow1x3nitpe"]
 
 [ext_resource type="PackedScene" uid="uid://cdxgs6xtn4sb1" path="res://world.tscn" id="1_n61jw"]
+[ext_resource type="Script" path="res://Levels/PlayerSpawn.gd" id="2_lsye4"]
 [ext_resource type="PackedScene" uid="uid://qykwxlkhnxy0" path="res://player.tscn" id="3_4brdu"]
 
 [sub_resource type="Gradient" id="Gradient_au567"]
@@ -42,6 +43,67 @@ collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/CSGBox3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_tf7e4")
+
+[node name="PlayerSpawn" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222493, 10.7624, 96.7244)
+script = ExtResource("2_lsye4")
+player = NodePath("../../Player")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222493, -0.273957, 96.7244)
+use_collision = true
+collision_mask = 0
+size = Vector3(13.3824, 1, 18.4023)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9249, 6.00187, 90.7684)
+use_collision = true
+collision_mask = 0
+size = Vector3(2.06059, 3.88779, 2.22914)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9249, 6.00187, 94.263)
+use_collision = true
+collision_mask = 0
+size = Vector3(2.06059, 3.88779, 2.22914)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.305539, 4.98863, 113.917)
+use_collision = true
+collision_mask = 0
+radius = 4.60994
+radial_segments = 36
+rings = 36
+
+[node name="CSGSphere3D5" type="CSGSphere3D" parent="World"]
+transform = Transform3D(-0.0759707, 0, -0.99711, 0, 2.46273, 0, 0.99711, 0, -0.0759707, -15.0324, 4.98863, 94.6897)
+use_collision = true
+collision_mask = 0
+radius = 1.14295
+radial_segments = 36
+rings = 36
+
+[node name="CSGSphere3D6" type="CSGSphere3D" parent="World"]
+transform = Transform3D(-0.0759707, 0, -0.99711, 0, 2.46273, 0, 0.99711, 0, -0.0759707, -25.8086, 4.98863, 102.303)
+use_collision = true
+collision_mask = 0
+radius = 1.14295
+radial_segments = 36
+rings = 36
+
+[node name="CSGSphere3D7" type="CSGSphere3D" parent="World"]
+transform = Transform3D(-0.0759707, 0, -0.99711, 0, 2.46273, 0, 0.99711, 0, -0.0759707, -39.3155, 4.98863, 96.058)
+use_collision = true
+collision_mask = 0
+radius = 1.14295
+radial_segments = 36
+rings = 36
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9249, 6.00187, 97.8878)
+use_collision = true
+collision_mask = 0
+size = Vector3(2.06059, 3.88779, 2.22914)
 
 [node name="Player" parent="." instance=ExtResource("3_4brdu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

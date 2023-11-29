@@ -1,18 +1,18 @@
 extends Area3D
 
-@onready var player : Node = get_parent().get_node("RBPlayer")
+@export var target : Node = get_parent()
 @onready var y_offset : float = self.position.y
 
 
-func _process(delta):
-	self.position.x = player.position.x
-	self.position.y = player.position.y + y_offset
-	self.position.z = player.position.z
+func _process(_delta):
+	self.position.x = target.position.x
+	self.position.y = target.position.y + y_offset
+	self.position.z = target.position.z
 
 
 func _on_body_entered(body):
-	player.set_grounded(true)
+	target.set_grounded(true, body)
 
 
 func _on_body_exited(body):
-	player.set_grounded(false)
+	target.set_grounded(false, body)

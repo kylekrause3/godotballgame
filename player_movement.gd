@@ -8,6 +8,7 @@ var move_input : Vector2
 @export var max_velocity : float = 50
 @export var jump_velocity : float = 10.0
 @export var sprint_speed : float = 35
+@export var text_label : Label
 
 var local_rotation : float = 0
 
@@ -21,10 +22,11 @@ var applied_speed : float = base_speed
 var do_teleport : bool = false
 var teleport_location : Vector3 = Vector3.ZERO
 
+var spawn : Vector3 = Vector3(0, 2, 0)
+
 
 func _ready():
 	pass
-
 
 func _physics_process(_delta):	
 	var xz_velocity : float = abs(linear_velocity.x) + abs(linear_velocity.z) /2
@@ -50,7 +52,7 @@ func _physics_process(_delta):
 		apply_central_impulse(Vector3.UP * jump_velocity)
 	
 	var display_velocity : String = "Velocity:\t" + str(int(xz_velocity * 10))
-	get_parent().get_node("Label").text = display_velocity
+	text_label.text = display_velocity
 
 
 func _integrate_forces(state):
@@ -76,12 +78,15 @@ func _integrate_forces(state):
 
 func _input(event):
 	if event.is_action_pressed("reset"):
-		self.teleport(Vector3(0, 2, 0))
+		self.teleport(spawn)
 
 
 func teleport(pos : Vector3) -> void:
 	do_teleport = true
 	teleport_location = pos
+
+func set_spawn(pos : Vector3) -> void:
+	self.spawn = pos
 
 
 func change_orientation(y_rot : float) -> void:
@@ -92,6 +97,6 @@ func change_orientation(y_rot : float) -> void:
 		local_rotation += 360
 		
 
-func set_grounded(condition : bool) -> void:
+func set_grounded(condition : bool, _body : Node) -> void:
 	is_on_floor = condition
 # https://github.com/Chevifier/Rigid-Body-FPS-Controller-Tutorial/blob/main/RBPlayer.gd

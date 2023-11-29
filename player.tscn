@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://qykwxlkhnxy0"]
 
 [ext_resource type="PackedScene" uid="uid://b1x8gngfgsham" path="res://rb_player.tscn" id="1_at6da"]
-[ext_resource type="Script" path="res://CamerFollow.gd" id="2_3f0gt"]
+[ext_resource type="Script" path="res://CameraFollow.gd" id="2_awyvt"]
 [ext_resource type="Script" path="res://GroundCheck.gd" id="3_nf08y"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rccep"]
@@ -11,23 +11,31 @@ font_size = 50
 
 [node name="Player" type="Node3D"]
 
-[node name="RBPlayer" parent="." instance=ExtResource("1_at6da")]
+[node name="RBPlayer" parent="." node_paths=PackedStringArray("text_label") instance=ExtResource("1_at6da")]
+text_label = NodePath("../UI Velocity")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.962218, 0.27228, 0, -0.27228, 0.962218, 0, 3, 7)
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target", "raycast")]
+transform = Transform3D(0.71934, -0.220418, 0.658761, 0, 0.948324, 0.317305, -0.694658, -0.22825, 0.682167, 0, 3, 7)
 current = true
-script = ExtResource("2_3f0gt")
+script = ExtResource("2_awyvt")
+target = NodePath("../RBPlayer")
 orbit_radius = 14.0
+raycast = NodePath("../RayCast3D")
 
-[node name="GroundCheck" type="Area3D" parent="."]
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(0.71934, -0.220418, 1.46574, 0, 0.948324, 0.706003, -0.694658, -0.22825, 1.51782, 0, 0, 0)
+target_position = Vector3(0, 0, 1)
+
+[node name="GroundCheck" type="Area3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 collision_layer = 0
 script = ExtResource("3_nf08y")
+target = NodePath("../RBPlayer")
 
 [node name="GroundCollider" type="CollisionShape3D" parent="GroundCheck"]
 shape = SubResource("BoxShape3D_rccep")
 
-[node name="Label" type="Label" parent="."]
+[node name="UI Velocity" type="Label" parent="."]
 anchors_preset = -1
 anchor_left = 0.003
 anchor_top = 0.775
