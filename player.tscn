@@ -11,8 +11,9 @@ font_size = 50
 
 [node name="Player" type="Node3D"]
 
-[node name="RBPlayer" parent="." node_paths=PackedStringArray("text_label") instance=ExtResource("1_at6da")]
-text_label = NodePath("../UI Velocity")
+[node name="RBPlayer" parent="." node_paths=PackedStringArray("velocity_label", "jumptime_label") instance=ExtResource("1_at6da")]
+velocity_label = NodePath("../Velocity")
+jumptime_label = NodePath("../jumptime")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target", "raycast")]
 transform = Transform3D(0.71934, -0.220418, 0.658761, 0, 0.948324, 0.317305, -0.694658, -0.22825, 0.682167, 0, 3, 7)
@@ -35,7 +36,7 @@ target = NodePath("../RBPlayer")
 [node name="GroundCollider" type="CollisionShape3D" parent="GroundCheck"]
 shape = SubResource("BoxShape3D_rccep")
 
-[node name="UI Velocity" type="Label" parent="."]
+[node name="Velocity" type="Label" parent="."]
 anchors_preset = -1
 anchor_left = 0.003
 anchor_top = 0.775
@@ -45,6 +46,22 @@ offset_left = -0.456
 offset_top = -0.200012
 offset_right = -0.240005
 offset_bottom = -0.128052
+grow_vertical = 2
+text = "000"
+label_settings = SubResource("LabelSettings_7d5wp")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="jumptime" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.003
+anchor_top = 0.775
+anchor_right = 0.12
+anchor_bottom = 0.886
+offset_left = -0.456
+offset_top = 64.8
+offset_right = -0.240005
+offset_bottom = 64.872
 grow_vertical = 2
 text = "000"
 label_settings = SubResource("LabelSettings_7d5wp")

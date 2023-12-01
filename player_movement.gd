@@ -8,7 +8,8 @@ var move_input : Vector2
 @export var max_velocity : float = 50
 @export var jump_velocity : float = 10.0
 @export var sprint_speed : float = 35
-@export var text_label : Label
+@export var velocity_label : Label
+@export var jumptime_label : Label
 
 var local_rotation : float = 0
 
@@ -24,13 +25,17 @@ var teleport_location : Vector3 = Vector3.ZERO
 
 var spawn : Vector3 = Vector3(0, 2, 0)
 
+var jump_held : bool = false
+var jump_held_time : float = 0
+var jump_held_max_secs : float = 0.35
+var display_jumptime : float = 0
 
 func _ready():
 	pass
 
-func _physics_process(_delta):	
+func _physics_process(delta):	
 	var xz_velocity : float = abs(linear_velocity.x) + abs(linear_velocity.z) /2
-	var dir = Vector3()
+	var dir : Vector3 = Vector3()
 	#movement input
 	move_input = Input.get_vector("left","right","down","up")
 	dir += move_input.x * Vector3.RIGHT
@@ -50,9 +55,24 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("jump") and is_on_floor:
 		is_on_floor = false
 		apply_central_impulse(Vector3.UP * jump_velocity)
+		jump_held = true # toggle jump held (higher jump for longer hold)
 	
-	var display_velocity : String = "Velocity:\t" + str(int(xz_velocity * 10))
-	text_label.text = display_velocity
+	# longer jumps if jump key is pressed and held
+	if jump_held and Input.is_action_pressed("jump"):
+		jump_held_time += delta
+		if jump_held_time < jump_held_max_secs:
+			apply_central_impulse(Vector3.UP * jump_velocity * delta)
+			display_jumptime = jump_held_time
+		else:
+			display_jumptime = jump_held_max_secs
+	else:
+		jump_held = false
+		jump_held_time = 0
+	
+	
+	var display_velocity : String = "Velocity:\t" + str(int(xz_velocity * 10) / 10.0)
+	velocity_label.text = display_velocity
+	jumptime_label.text = "Hold time:\t" + str(int(display_jumptime * 100) / 100.0)
 
 
 func _integrate_forces(state):
