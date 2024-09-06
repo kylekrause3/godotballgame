@@ -4,10 +4,11 @@ var forward : Vector3 = Vector3(1, 0, 0);
 
 var move_input : Vector2
 
-@export var base_speed : float = 25
+@export var base_speed : float = 55
 @export var max_velocity : float = 40
-@export var jump_velocity : float = 10.0
-@export var sprint_speed : float = 35
+@export var jump_velocity : float = 15
+@export var jump_held_max_secs : float = 0.4
+@export var sprint_speed : float = 75
 @export var velocity_label : Label
 @export var jumptime_label : Label
 
@@ -27,8 +28,10 @@ var spawn : Vector3 = Vector3(0, 2, 0)
 
 var jump_held : bool = false
 var jump_held_time : float = 0
-var jump_held_max_secs : float = 0.35
+
 var display_jumptime : float = 0
+
+var ground_bodies : int = 0
 
 func _ready():
 	pass
@@ -41,17 +44,23 @@ func _physics_process(delta):
 	dir += move_input.x * Vector3.RIGHT
 	dir += move_input.y * Vector3.FORWARD
 	dir = dir.rotated(Vector3(0, 1, 0), deg_to_rad(local_rotation)) # rotate wish dir by camera location
+	dir = dir.normalized()
 	
+	var brake_help : float = 1.0
+	# dot product between normalized wish direction and velocity direction for braking
+	var amount_forward = dir.dot(Vector3(linear_velocity.x, 0, linear_velocity.z).normalized())
+	if amount_forward < 0: # if we are trying to slow the ball down
+		brake_help = 1 + abs(amount_forward)
 	applied_speed = base_speed
 	if Input.is_action_pressed("sprint"):
 		applied_speed = sprint_speed
 	
 	velocity = dir * applied_speed
-	if xz_velocity < max_velocity:
+	if xz_velocity < max_velocity: # else, just apply steering (no steering currently if greater than max velo)
 		if is_on_floor:
-			apply_central_force(velocity)
+			apply_central_force(velocity * brake_help)
 		else:
-			apply_central_force(velocity / 3)
+			apply_central_force((velocity * brake_help) / 3)
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor:
 		is_on_floor = false
@@ -118,6 +127,12 @@ func change_cam_orientation(y_rot_amt : float) -> void:
 		local_rotation += 360
 		
 
-func set_grounded(condition : bool, _body : Node) -> void:
-	is_on_floor = condition
+func add_ground() -> void:
+	ground_bodies += 1
+	is_on_floor = true
+
+
+func remove_ground() -> void:
+	ground_bodies -= 1
+	is_on_floor = ground_bodies > 0
 # https://github.com/Chevifier/Rigid-Body-FPS-Controller-Tutorial/blob/main/RBPlayer.gd

@@ -4,7 +4,8 @@
 [ext_resource type="Script" path="res://CameraFollow.gd" id="2_awyvt"]
 [ext_resource type="Script" path="res://GroundCheck.gd" id="3_nf08y"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_rccep"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_6on4h"]
+radius = 1.25
 
 [sub_resource type="LabelSettings" id="LabelSettings_7d5wp"]
 font_size = 50
@@ -12,6 +13,7 @@ font_size = 50
 [node name="Player" type="Node3D"]
 
 [node name="RBPlayer" parent="." node_paths=PackedStringArray("velocity_label", "jumptime_label") instance=ExtResource("1_at6da")]
+gravity_scale = 2.0
 velocity_label = NodePath("../Velocity")
 jumptime_label = NodePath("../jumptime")
 
@@ -28,13 +30,13 @@ transform = Transform3D(0.71934, -0.220418, 1.46574, 0, 0.948324, 0.706003, -0.6
 target_position = Vector3(0, 0, 1)
 
 [node name="GroundCheck" type="Area3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 collision_layer = 0
 script = ExtResource("3_nf08y")
 target = NodePath("../RBPlayer")
 
 [node name="GroundCollider" type="CollisionShape3D" parent="GroundCheck"]
-shape = SubResource("BoxShape3D_rccep")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+shape = SubResource("SphereShape3D_6on4h")
 
 [node name="Velocity" type="Label" parent="."]
 anchors_preset = -1
@@ -68,5 +70,7 @@ label_settings = SubResource("LabelSettings_7d5wp")
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[connection signal="area_entered" from="GroundCheck" to="GroundCheck" method="_on_area_entered"]
+[connection signal="area_exited" from="GroundCheck" to="GroundCheck" method="_on_area_exited"]
 [connection signal="body_entered" from="GroundCheck" to="GroundCheck" method="_on_body_entered"]
 [connection signal="body_exited" from="GroundCheck" to="GroundCheck" method="_on_body_exited"]

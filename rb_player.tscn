@@ -28,16 +28,15 @@ clearcoat_roughness = 0.0
 
 [node name="RBPlayer" type="RigidBody3D"]
 collision_layer = 2
+continuous_cd = true
 script = ExtResource("1_lveuj")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
-radius = 1.0
+radius = 1.5
 radial_segments = 24
 rings = 24
 material = SubResource("StandardMaterial3D_pkxn2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 shape = SubResource("SphereShape3D_kb1ol")
-
-[node name="Forward" type="Node3D" parent="."]

@@ -6,13 +6,13 @@ extends Area3D
 
 func _process(_delta):
 	self.position.x = target.position.x
-	self.position.y = target.position.y + y_offset
+	self.position.y = target.position.y 
 	self.position.z = target.position.z
 
 
 func _on_body_entered(body):
-	target.set_grounded(true, body)
+	target.add_ground()
 
 
 func _on_body_exited(body):
-	target.set_grounded(false, body)
+	target.remove_ground()

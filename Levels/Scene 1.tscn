@@ -38,23 +38,14 @@ volumetric_fog_density = 0.01
 
 [node name="World" parent="." instance=ExtResource("1_n61jw")]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="World"]
+[node name="Floor" type="CSGBox3D" parent="World"]
 transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
 material = SubResource("StandardMaterial3D_ep2xj")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="World/CSGBox3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="World/Floor"]
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/CSGBox3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_tf7e4")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="World"]
-transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="World/CSGBox3D2"]
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/CSGBox3D2/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Floor/StaticBody3D"]
 shape = SubResource("BoxShape3D_tf7e4")
 
 [node name="camera raycast test zone" type="Node" parent="World"]
@@ -144,6 +135,42 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9249, 6.00187, 97.8878)
 use_collision = true
 collision_mask = 0
 size = Vector3(2.06059, 3.88779, 2.22914)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="World/camera raycast test zone"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.00426829, 52.5885)
+use_collision = true
+collision_mask = 0
+size = Vector3(6.12235, 1, 5.50475)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="World/camera raycast test zone"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.158992, 57.4713)
+use_collision = true
+collision_mask = 0
+size = Vector3(6.12235, 0.690552, 5.50475)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="World/camera raycast test zone"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.285305, 62.7496)
+use_collision = true
+collision_mask = 0
+size = Vector3(6.12235, 0.437927, 5.50475)
+
+[node name="Label3D2" type="Label3D" parent="World/camera raycast test zone"]
+transform = Transform3D(-0.999968, 0, 0.00804598, 0, 1, 0, -0.00804598, 0, -0.999968, 46.9019, 0.890733, 64.6987)
+pixel_size = 0.02
+text = "0.438m thick
+"
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="World/camera raycast test zone"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.385997, 68.0909)
+use_collision = true
+collision_mask = 0
+size = Vector3(6.122, 0.2, 5.505)
+
+[node name="Label3D" type="Label3D" parent="World/camera raycast test zone"]
+transform = Transform3D(-0.999968, 0, 0.00804598, 0, 1, 0, -0.00804598, 0, -0.999968, 38.3205, 0.260198, 70.019)
+pixel_size = 0.02
+text = "0.02 m thick, ground collider has 0.02 m margin (this shouldnt work)
+"
 
 [node name="jump height test zone" type="Node" parent="World"]
 
