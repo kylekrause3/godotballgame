@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dy6ow1x3nitpe"]
+[gd_scene load_steps=14 format=3 uid="uid://dy6ow1x3nitpe"]
 
 [ext_resource type="PackedScene" uid="uid://cdxgs6xtn4sb1" path="res://world.tscn" id="1_n61jw"]
 [ext_resource type="Script" path="res://Levels/PlayerSpawn.gd" id="2_lsye4"]
@@ -18,6 +18,10 @@ noise = SubResource("FastNoiseLite_j4okk")
 albedo_texture = SubResource("NoiseTexture2D_ex44v")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tf7e4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1011x"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q3km0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lu257"]
 
@@ -44,57 +48,66 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/CSGBox3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_tf7e4")
 
-[node name="camera raycast" type="Node" parent="World"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="World"]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
 
-[node name="SPAWN_camray" type="Node3D" parent="World/camera raycast" node_paths=PackedStringArray("player")]
+[node name="StaticBody3D" type="StaticBody3D" parent="World/CSGBox3D2"]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/CSGBox3D2/StaticBody3D"]
+shape = SubResource("BoxShape3D_tf7e4")
+
+[node name="camera raycast test zone" type="Node" parent="World"]
+
+[node name="SPAWN_camray" type="Node3D" parent="World/camera raycast test zone" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222493, 10.7624, 96.7244)
 visible = false
 script = ExtResource("2_lsye4")
 player = NodePath("../../../Player")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222493, -0.273957, 96.7244)
 use_collision = true
 collision_mask = 0
 size = Vector3(13.3824, 1, 18.4023)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D3" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5489, -0.273957, 76.9482)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D4" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.53792, -0.273957, 70.0523)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D8" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D8" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.62612, -0.273957, 62.5502)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D9" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D9" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.6303, -0.273957, 54.8671)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D5" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9249, 6.00187, 90.7684)
 use_collision = true
 collision_mask = 0
 size = Vector3(2.06059, 3.88779, 2.22914)
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D6" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9249, 6.00187, 94.263)
 use_collision = true
 collision_mask = 0
 size = Vector3(2.06059, 3.88779, 2.22914)
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="World/camera raycast"]
+[node name="CSGSphere3D" type="CSGSphere3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.305539, 4.98863, 113.917)
 use_collision = true
 collision_mask = 0
@@ -102,7 +115,7 @@ radius = 4.60994
 radial_segments = 36
 rings = 36
 
-[node name="CSGSphere3D5" type="CSGSphere3D" parent="World/camera raycast"]
+[node name="CSGSphere3D5" type="CSGSphere3D" parent="World/camera raycast test zone"]
 transform = Transform3D(-0.0759707, 0, -0.99711, 0, 2.46273, 0, 0.99711, 0, -0.0759707, -15.0324, 4.98863, 94.6897)
 use_collision = true
 collision_mask = 0
@@ -110,7 +123,7 @@ radius = 1.14295
 radial_segments = 36
 rings = 36
 
-[node name="CSGSphere3D6" type="CSGSphere3D" parent="World/camera raycast"]
+[node name="CSGSphere3D6" type="CSGSphere3D" parent="World/camera raycast test zone"]
 transform = Transform3D(-0.0759707, 0, -0.99711, 0, 2.46273, 0, 0.99711, 0, -0.0759707, -25.8086, 4.98863, 102.303)
 use_collision = true
 collision_mask = 0
@@ -118,7 +131,7 @@ radius = 1.14295
 radial_segments = 36
 rings = 36
 
-[node name="CSGSphere3D7" type="CSGSphere3D" parent="World/camera raycast"]
+[node name="CSGSphere3D7" type="CSGSphere3D" parent="World/camera raycast test zone"]
 transform = Transform3D(-0.0759707, 0, -0.99711, 0, 2.46273, 0, 0.99711, 0, -0.0759707, -39.3155, 4.98863, 96.058)
 use_collision = true
 collision_mask = 0
@@ -126,54 +139,110 @@ radius = 1.14295
 radial_segments = 36
 rings = 36
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="World/camera raycast"]
+[node name="CSGBox3D7" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9249, 6.00187, 97.8878)
 use_collision = true
 collision_mask = 0
 size = Vector3(2.06059, 3.88779, 2.22914)
 
-[node name="jump height" type="Node" parent="World"]
+[node name="jump height test zone" type="Node" parent="World"]
 
-[node name="SPAWN_jump" type="Node3D" parent="World/jump height" node_paths=PackedStringArray("player")]
+[node name="SPAWN_jump" type="Node3D" parent="World/jump height test zone" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84.225, 2.28544, -12.1551)
 script = ExtResource("2_lsye4")
 player = NodePath("../../../Player")
 
-[node name="CSGBox3D10" type="CSGBox3D" parent="World/jump height"]
+[node name="CSGBox3D10" type="CSGBox3D" parent="World/jump height test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.4672, -0.273957, 9.77019)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D11" type="CSGBox3D" parent="World/jump height"]
+[node name="CSGBox3D11" type="CSGBox3D" parent="World/jump height test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65.6561, -0.273957, 9.90042)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D12" type="CSGBox3D" parent="World/jump height"]
+[node name="CSGBox3D12" type="CSGBox3D" parent="World/jump height test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.2897, -0.273957, 1.53416)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D13" type="CSGBox3D" parent="World/jump height"]
+[node name="CSGBox3D13" type="CSGBox3D" parent="World/jump height test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84.225, -0.402211, -12.1551)
 use_collision = true
 collision_mask = 0
 size = Vector3(12.6118, 1, 15.3069)
 
-[node name="CSGBox3D15" type="CSGBox3D" parent="World/jump height"]
+[node name="CSGBox3D15" type="CSGBox3D" parent="World/jump height test zone"]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 89, 3.50256, -17.2)
 use_collision = true
 collision_mask = 0
 size = Vector3(6, 9.32764, 2)
 
-[node name="shortest" type="CSGBox3D" parent="World/jump height"]
+[node name="shortest" type="CSGBox3D" parent="World/jump height test zone"]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 89, 3, -10)
 use_collision = true
 collision_mask = 0
 size = Vector3(6, 6, 2)
+
+[node name="race area test zone" type="Node" parent="World"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/race area test zone"]
+transform = Transform3D(48.8193, 0, 0, 0, 1, 0, 0, 0, 381.487, -88.7975, 0, 0)
+mesh = SubResource("BoxMesh_1011x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/race area test zone/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/race area test zone/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_q3km0")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="World/race area test zone"]
+transform = Transform3D(48.8193, 0, 0, 0, 1, 0, 0, 0, 90.7735, -92.0781, 5.79614, -144.792)
+mesh = SubResource("BoxMesh_1011x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/race area test zone/MeshInstance3D6"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/race area test zone/MeshInstance3D6/StaticBody3D"]
+shape = SubResource("BoxShape3D_q3km0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="World/race area test zone"]
+transform = Transform3D(48.8193, 0, 0, 0, -0.437501, -243.763, 0, 5.47468, -19.48, -88.7975, 0, 188.405)
+mesh = SubResource("BoxMesh_1011x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/race area test zone/MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/race area test zone/MeshInstance3D2/StaticBody3D"]
+shape = SubResource("BoxShape3D_q3km0")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="World/race area test zone"]
+transform = Transform3D(48.8193, 0, 0, 0, -0.437501, -243.763, 0, 5.47468, -19.48, -88.7975, 0, -191.755)
+mesh = SubResource("BoxMesh_1011x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/race area test zone/MeshInstance3D3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/race area test zone/MeshInstance3D3/StaticBody3D"]
+shape = SubResource("BoxShape3D_q3km0")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="World/race area test zone"]
+transform = Transform3D(6.15079, -4.11424, 159.036, 5.41348, -3.51951, -185.761, 48.1267, 0.921705, 0.569672, 13.4403, -86.6777, -126.677)
+mesh = SubResource("BoxMesh_1011x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/race area test zone/MeshInstance3D4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/race area test zone/MeshInstance3D4/StaticBody3D"]
+shape = SubResource("BoxShape3D_q3km0")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="World/race area test zone"]
+transform = Transform3D(-11.8489, -3.76266, 167.957, -11.1466, -3.55761, -177.737, 46.0291, -1.83011, 0.194215, 17.2699, -86.6777, -157.557)
+mesh = SubResource("BoxMesh_1011x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/race area test zone/MeshInstance3D5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/race area test zone/MeshInstance3D5/StaticBody3D"]
+shape = SubResource("BoxShape3D_q3km0")
 
 [node name="Player" parent="." instance=ExtResource("3_4brdu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

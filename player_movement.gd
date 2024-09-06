@@ -5,7 +5,7 @@ var forward : Vector3 = Vector3(1, 0, 0);
 var move_input : Vector2
 
 @export var base_speed : float = 25
-@export var max_velocity : float = 50
+@export var max_velocity : float = 40
 @export var jump_velocity : float = 10.0
 @export var sprint_speed : float = 35
 @export var velocity_label : Label
@@ -40,17 +40,18 @@ func _physics_process(delta):
 	move_input = Input.get_vector("left","right","down","up")
 	dir += move_input.x * Vector3.RIGHT
 	dir += move_input.y * Vector3.FORWARD
+	dir = dir.rotated(Vector3(0, 1, 0), deg_to_rad(local_rotation)) # rotate wish dir by camera location
 	
 	applied_speed = base_speed
 	if Input.is_action_pressed("sprint"):
 		applied_speed = sprint_speed
 	
-	dir = dir.rotated(Vector3(0, 1, 0), deg_to_rad(local_rotation))
 	velocity = dir * applied_speed
-	if is_on_floor:
-		apply_central_force(velocity)
-	else:
-		apply_central_force(velocity / 3)
+	if xz_velocity < max_velocity:
+		if is_on_floor:
+			apply_central_force(velocity)
+		else:
+			apply_central_force(velocity / 3)
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor:
 		is_on_floor = false
@@ -109,8 +110,8 @@ func set_spawn(pos : Vector3) -> void:
 	self.spawn = pos
 
 
-func change_orientation(y_rot : float) -> void:
-	local_rotation += y_rot
+func change_cam_orientation(y_rot_amt : float) -> void:
+	local_rotation += y_rot_amt
 	while local_rotation > 360:
 		local_rotation -= 360
 	while local_rotation < 0:

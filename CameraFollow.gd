@@ -66,7 +66,7 @@ func _input(event):
 		self.rotation_degrees.y -= event.relative.x * view_sensitivity
 		
 		if orient_target:
-			target.change_orientation(-event.relative.x * view_sensitivity)
+			target.change_cam_orientation(-event.relative.x * view_sensitivity)
 			
 	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
