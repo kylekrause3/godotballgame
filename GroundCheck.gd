@@ -11,8 +11,8 @@ func _process(_delta):
 
 
 func _on_body_entered(body):
-	target.add_ground()
+	target.add_ground_count()
 
 
 func _on_body_exited(body):
-	target.remove_ground()
+	target.remove_ground_count()

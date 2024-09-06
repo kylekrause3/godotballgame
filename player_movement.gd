@@ -127,12 +127,12 @@ func change_cam_orientation(y_rot_amt : float) -> void:
 		local_rotation += 360
 		
 
-func add_ground() -> void:
+func add_ground_count() -> void:
 	ground_bodies += 1
 	is_on_floor = true
 
 
-func remove_ground() -> void:
+func remove_ground_count() -> void:
 	ground_bodies -= 1
 	is_on_floor = ground_bodies > 0
 # https://github.com/Chevifier/Rigid-Body-FPS-Controller-Tutorial/blob/main/RBPlayer.gd
