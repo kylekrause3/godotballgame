@@ -1,8 +1,33 @@
-[gd_scene load_steps=6 format=3 uid="uid://qykwxlkhnxy0"]
+[gd_scene load_steps=11 format=3 uid="uid://qykwxlkhnxy0"]
 
-[ext_resource type="PackedScene" uid="uid://b1x8gngfgsham" path="res://rb_player.tscn" id="1_at6da"]
 [ext_resource type="Script" path="res://CameraFollow.gd" id="2_awyvt"]
 [ext_resource type="Script" path="res://GroundCheck.gd" id="3_nf08y"]
+[ext_resource type="Script" path="res://player_movement.gd" id="3_nub3k"]
+[ext_resource type="Script" path="res://GroundLine.gd" id="4_p8gwd"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vy6pb"]
+noise_type = 3
+seed = 1
+frequency = 0.003
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j0xa1"]
+in_3d_space = true
+seamless = true
+seamless_blend_skirt = 1.0
+as_normal_map = true
+bump_strength = 3.5
+noise = SubResource("FastNoiseLite_vy6pb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lwft2"]
+metallic = 1.0
+roughness = 0.28
+emission_energy_multiplier = 0.1
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_j0xa1")
+clearcoat_enabled = true
+clearcoat_roughness = 0.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gry63"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6on4h"]
 radius = 1.25
@@ -12,10 +37,29 @@ font_size = 50
 
 [node name="Player" type="Node3D"]
 
-[node name="RBPlayer" parent="." node_paths=PackedStringArray("velocity_label", "jumptime_label") instance=ExtResource("1_at6da")]
-gravity_scale = 2.0
+[node name="RBPlayer" type="RigidBody3D" parent="." node_paths=PackedStringArray("velocity_label", "jumptime_label", "ground_line", "camera")]
+collision_layer = 2
+gravity_scale = 1.85
+continuous_cd = true
+script = ExtResource("3_nub3k")
 velocity_label = NodePath("../Velocity")
 jumptime_label = NodePath("../jumptime")
+ground_line = NodePath("../Ground RayCast")
+camera = NodePath("../Camera3D")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="RBPlayer"]
+radius = 1.5
+radial_segments = 24
+rings = 24
+material = SubResource("StandardMaterial3D_lwft2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RBPlayer"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+shape = SubResource("SphereShape3D_gry63")
+
+[node name="Ground RayCast" type="RayCast3D" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("4_p8gwd")
+target = NodePath("../RBPlayer")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target", "raycast")]
 transform = Transform3D(0.71934, -0.220418, 0.658761, 0, 0.948324, 0.317305, -0.694658, -0.22825, 0.682167, 0, 3, 7)

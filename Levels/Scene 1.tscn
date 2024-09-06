@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://dy6ow1x3nitpe"]
+[gd_scene load_steps=17 format=3 uid="uid://dy6ow1x3nitpe"]
 
 [ext_resource type="PackedScene" uid="uid://cdxgs6xtn4sb1" path="res://world.tscn" id="1_n61jw"]
-[ext_resource type="Script" path="res://Levels/PlayerSpawn.gd" id="2_lsye4"]
+[ext_resource type="Script" path="res://PlayerSpawn.gd" id="2_lsye4"]
 [ext_resource type="PackedScene" uid="uid://qykwxlkhnxy0" path="res://player.tscn" id="3_4brdu"]
 
 [sub_resource type="Gradient" id="Gradient_au567"]
@@ -22,6 +22,15 @@ albedo_texture = SubResource("NoiseTexture2D_ex44v")
 [sub_resource type="BoxMesh" id="BoxMesh_1011x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q3km0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c6aqe"]
+size = Vector3(85, 1, 20)
+
+[sub_resource type="PrismMesh" id="PrismMesh_61hsx"]
+size = Vector3(26.625, 37.95, 27.315)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w2nth"]
+points = PackedVector3Array(0, 18.975, 13.6575, 0, 18.975, -13.6575, -13.3125, -18.975, 13.6575, 13.3125, -18.975, 13.6575, 13.3125, -18.975, -13.6575, -13.3125, -18.975, -13.6575)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lu257"]
 
@@ -48,13 +57,13 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/Floor/StaticBody3D"]
 shape = SubResource("BoxShape3D_tf7e4")
 
-[node name="camera raycast test zone" type="Node" parent="World"]
-
-[node name="SPAWN_camray" type="Node3D" parent="World/camera raycast test zone" node_paths=PackedStringArray("player")]
+[node name="SPAWN_camray" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222493, 10.7624, 96.7244)
 visible = false
 script = ExtResource("2_lsye4")
-player = NodePath("../../../Player")
+player = NodePath("../../Player")
+
+[node name="camera raycast test zone" type="Node" parent="World"]
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="World/camera raycast test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222493, -0.273957, 96.7244)
@@ -136,48 +145,57 @@ use_collision = true
 collision_mask = 0
 size = Vector3(2.06059, 3.88779, 2.22914)
 
-[node name="CSGBox3D10" type="CSGBox3D" parent="World/camera raycast test zone"]
+[node name="Thickness test zone" type="Node" parent="World"]
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="World/Thickness test zone"]
 transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.00426829, 52.5885)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 1, 5.50475)
 
-[node name="CSGBox3D11" type="CSGBox3D" parent="World/camera raycast test zone"]
+[node name="CSGBox3D11" type="CSGBox3D" parent="World/Thickness test zone"]
 transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.158992, 57.4713)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 0.690552, 5.50475)
 
-[node name="CSGBox3D12" type="CSGBox3D" parent="World/camera raycast test zone"]
+[node name="CSGBox3D12" type="CSGBox3D" parent="World/Thickness test zone"]
 transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.285305, 62.7496)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.12235, 0.437927, 5.50475)
 
-[node name="Label3D2" type="Label3D" parent="World/camera raycast test zone"]
+[node name="Label3D2" type="Label3D" parent="World/Thickness test zone"]
 transform = Transform3D(-0.999968, 0, 0.00804598, 0, 1, 0, -0.00804598, 0, -0.999968, 46.9019, 0.890733, 64.6987)
 pixel_size = 0.02
 text = "0.438m thick
 "
 
-[node name="CSGBox3D13" type="CSGBox3D" parent="World/camera raycast test zone"]
+[node name="CSGBox3D13" type="CSGBox3D" parent="World/Thickness test zone"]
 transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 1, 90.9769, -0.385997, 68.0909)
 use_collision = true
 collision_mask = 0
 size = Vector3(6.122, 0.2, 5.505)
 
-[node name="Label3D" type="Label3D" parent="World/camera raycast test zone"]
+[node name="Label3D" type="Label3D" parent="World/Thickness test zone"]
 transform = Transform3D(-0.999968, 0, 0.00804598, 0, 1, 0, -0.00804598, 0, -0.999968, 38.3205, 0.260198, 70.019)
 pixel_size = 0.02
 text = "0.02 m thick, ground collider has 0.02 m margin (this shouldnt work)
 "
 
-[node name="jump height test zone" type="Node" parent="World"]
+[node name="CSGBox3D14" type="CSGBox3D" parent="World/Thickness test zone"]
+transform = Transform3D(3.82137e-14, 4.37114e-08, 1, 20, -4.37114e-08, 0, 8.74228e-07, 1, -4.37114e-08, -103.131, 55.0419, 157.874)
+use_collision = true
+collision_mask = 0
+size = Vector3(6.122, 0.2, 5.505)
 
-[node name="SPAWN_jump" type="Node3D" parent="World/jump height test zone" node_paths=PackedStringArray("player")]
+[node name="SPAWN_jump" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84.225, 2.28544, -12.1551)
+visible = false
 script = ExtResource("2_lsye4")
-player = NodePath("../../../Player")
+player = NodePath("../../Player")
+
+[node name="jump height test zone" type="Node" parent="World"]
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="World/jump height test zone"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.4672, -0.273957, 9.77019)
@@ -270,6 +288,49 @@ mesh = SubResource("BoxMesh_1011x")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/race area test zone/MeshInstance3D5/StaticBody3D"]
 shape = SubResource("BoxShape3D_q3km0")
+
+[node name="surface friction test zone" type="Node" parent="World"]
+
+[node name="SPAWN_tt" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.453239, 4.72572, -42.5933)
+script = ExtResource("2_lsye4")
+player = NodePath("../../Player")
+
+[node name="Teeter Totter MAKE SURE MASK IS ON PLAYER" type="Node" parent="World"]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -72)
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER/RigidBody3D"]
+shape = SubResource("BoxShape3D_c6aqe")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER/RigidBody3D/CollisionShape3D"]
+size = Vector3(85, 1, 20)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -72)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.5945, 0)
+mesh = SubResource("PrismMesh_61hsx")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17.5945, 0)
+shape = SubResource("ConvexPolygonShape3D_w2nth")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER"]
+transform = Transform3D(0.943951, -0.330086, 0, 0.330086, 0.943951, 0, 0, 0, 1, 40.3356, -2.07185, -71.0384)
+use_collision = true
+collision_mask = 0
+size = Vector3(15.5973, 1, 28.6025)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="World/Teeter Totter MAKE SURE MASK IS ON PLAYER"]
+transform = Transform3D(-0.943801, 0.330514, -8.74228e-08, 0.330514, 0.943801, 0, 8.25097e-08, -2.88945e-08, -1, -44.1031, -2.07185, -71.0384)
+use_collision = true
+collision_mask = 0
+size = Vector3(15.5973, 1, 28.6025)
 
 [node name="Player" parent="." instance=ExtResource("3_4brdu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

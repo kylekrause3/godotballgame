@@ -7,6 +7,7 @@ extends Camera3D
 @export var raycast : RayCast3D
 @export var zoom_fov : bool = false
 @export var zoom_amount : float = 0.5
+@export var fov_change_rate : float = 100
 
 var mouse_input : Vector2 = Vector2.ZERO
 var view_sensitivity_scalar : float = 0.25
@@ -21,6 +22,8 @@ var last_addpos : Vector3 = Vector3.ZERO
 
 var collision_mask = 0b00000000_00000000_00000000_00000001
 
+@onready var desired_fov = self.fov 
+
 func _ready():
 	if target == null:
 		target.position = self.position
@@ -31,7 +34,7 @@ func _ready():
 	raycast.add_exception(target)
 
 
-func _process(_delta):
+func _process(delta):
 	self.position = target.position
 	var backward = get_backward(self.rotation)
 	
@@ -49,15 +52,11 @@ func _process(_delta):
 	else:
 		self.position += orbit_radius * backward
 	
-	
-	
-	# if(raycast.is_colliding()) stoppign here, realized i cant do it stemming from camera bah
-	'if(touching_ground):
-		if(self.position.y < ground_body.position.y):
-			self.position.y = ground_body.position.y'
-	'if(self.position.y < target.position.y):
-		self.position.y = target.position.y'
-	# TODO: Add collider to camera so you can free rotate if theres no floor
+	if self.fov - desired_fov > 0:
+		self.fov -= delta * fov_change_rate
+	elif self.fov - desired_fov < 0:
+		self.fov += delta * fov_change_rate
+
 
 func _input(event):	
 	if event is InputEventMouseMotion and do_mouse_movement:
@@ -76,12 +75,14 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			if zoom_fov:
 				self.fov -= zoom_amount
+				desired_fov -= zoom_amount
 			else:
 				if orbit_radius - zoom_amount > 0:
 					orbit_radius -= zoom_amount
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			if zoom_fov:
 				self.fov += zoom_amount
+				desired_fov += zoom_amount
 			else:
 				orbit_radius += zoom_amount
 	elif event is InputEventKey and event.pressed:
@@ -97,3 +98,6 @@ func get_backward(rot : Vector3) -> Vector3:
 	ret = ret.rotated(Vector3(0, 1, 0), rot.y)
 	return ret.normalized()
 
+
+func set_desired_fov(fov : float) -> void:
+	desired_fov = fov
