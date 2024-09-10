@@ -64,7 +64,7 @@ func _physics_process(delta):
 	
 	# Translate input direction into force
 	wish_velocity = dir * applied_speed
-	if xz_velocity.length() < max_velocity: # else, just apply steering (no steering currently if greater than max velo)
+	if xz_velocity.length() < max_velocity: # else, just apply steering
 		if is_on_floor:
 			apply_central_force(wish_velocity * brake_help)
 		else:
