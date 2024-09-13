@@ -1,0 +1,8 @@
+see player_movement.gd
+
+use physics material for friction
+
+implement per-surface friction (ice)
+
+implement timers
+

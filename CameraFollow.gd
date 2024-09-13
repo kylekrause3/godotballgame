@@ -64,7 +64,7 @@ func _input(event):
 		self.rotation_degrees.x = clamp(self.rotation_degrees.x, -89, 89)
 		self.rotation_degrees.y -= event.relative.x * view_sensitivity
 		
-		if orient_target:
+		if orient_target: # ensure that the player knows where the camera is facing so that input direction and result movement match
 			target.change_cam_orientation(-event.relative.x * view_sensitivity)
 			
 	elif event is InputEventMouseButton:

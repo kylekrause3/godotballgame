@@ -1,3 +1,9 @@
+# todo:
+#  - when not grounded, can change rotation in direction of wasd, can add sort of sm64 backflip this way as well
+# 
+#  - monitor if just_grounded , if just_grounded && ctrl_held, add ground-pound window:
+#      (grace period where you can jump regardless of ground [if ground pounded physical object and it moved] and jump slightly higher)
+
 extends RigidBody3D
 
 var move_input : Vector2
@@ -15,7 +21,7 @@ var move_input : Vector2
 
 @onready var camera_fov : float = camera.fov
 
-var local_rotation : float = 0
+var camera_rotation : float = 0
 
 var wish_velocity : Vector3 = Vector3(0, 0, 0)
 
@@ -48,7 +54,7 @@ func _physics_process(delta):
 	move_input = Input.get_vector("left","right","down","up")
 	dir += move_input.x * Vector3.RIGHT
 	dir += move_input.y * Vector3.FORWARD
-	dir = dir.rotated(Vector3(0, 1, 0), deg_to_rad(local_rotation)) # rotate wish dir by camera location
+	dir = dir.rotated(Vector3(0, 1, 0), deg_to_rad(camera_rotation)) # rotate wish dir by camera location
 	dir = dir.normalized()
 	
 	var brake_help : float = 1.0
@@ -147,12 +153,13 @@ func set_spawn(pos : Vector3) -> void:
 	self.spawn = pos
 
 
-func change_cam_orientation(y_rot_amt : float) -> void:
-	local_rotation += y_rot_amt
-	while local_rotation > 360:
-		local_rotation -= 360
-	while local_rotation < 0:
-		local_rotation += 360
+# ensure that the wasd direction matches where the camera is facing
+func change_cam_orientation(y_rot_amt : float) -> void: 
+	camera_rotation += y_rot_amt
+	while camera_rotation > 360:
+		camera_rotation -= 360
+	while camera_rotation < 0:
+		camera_rotation += 360
 		
 
 func add_ground_count() -> void:
