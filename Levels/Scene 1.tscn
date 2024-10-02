@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dy6ow1x3nitpe"]
+[gd_scene load_steps=21 format=3 uid="uid://dy6ow1x3nitpe"]
 
 [ext_resource type="PackedScene" uid="uid://cdxgs6xtn4sb1" path="res://world.tscn" id="1_n61jw"]
 [ext_resource type="Script" path="res://PlayerSpawn.gd" id="2_lsye4"]
@@ -18,6 +18,22 @@ noise = SubResource("FastNoiseLite_j4okk")
 albedo_texture = SubResource("NoiseTexture2D_ex44v")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tf7e4"]
+
+[sub_resource type="Gradient" id="Gradient_f3ba5"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8mr3d"]
+noise_type = 4
+frequency = 0.0396
+offset = Vector3(0, 480, 0)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ortao"]
+width = 100
+height = 2000
+color_ramp = SubResource("Gradient_f3ba5")
+noise = SubResource("FastNoiseLite_8mr3d")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmdwx"]
+albedo_texture = SubResource("NoiseTexture2D_ortao")
 
 [sub_resource type="BoxMesh" id="BoxMesh_1011x"]
 
@@ -188,6 +204,7 @@ transform = Transform3D(3.82137e-14, 4.37114e-08, 1, 20, -4.37114e-08, 0, 8.7422
 use_collision = true
 collision_mask = 0
 size = Vector3(6.122, 0.2, 5.505)
+material = SubResource("StandardMaterial3D_lmdwx")
 
 [node name="SPAWN_jump" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84.225, 2.28544, -12.1551)

@@ -12,6 +12,7 @@ var move_input : Vector2
 @export var max_velocity : float = 100
 @export var jump_velocity : float = 15
 @export var jump_held_max_secs : float = 0.4
+@export var total_jumps : int = 2
 @export var sprint_speed : float = 75
 @export var velocity_label : Label
 @export var jumptime_label : Label
@@ -37,6 +38,7 @@ var spawn : Vector3 = Vector3(0, 2, 0)
 
 var jump_held : bool = false
 var jump_held_time : float = 0
+var jump_amount : int = total_jumps
 
 var display_jumptime : float = 0
 
@@ -91,15 +93,16 @@ func _physics_process(delta):
 			apply_central_force((wish_perpendicular * brake_help) / 3)
 	
 	# jumping
-	if Input.is_action_just_pressed("jump") && is_on_floor:
+	if Input.is_action_just_pressed("jump") && (jump_amount > 0):
+		jump_amount-=1
 		is_on_floor = false
-		apply_central_impulse(Vector3.UP * jump_velocity)
+		self.linear_velocity.y = jump_velocity
 		jump_held = true # toggle jump held (higher jump for longer hold)
 	
 	if jump_held && Input.is_action_pressed("jump"):
 		jump_held_time += delta
 		if jump_held_time < jump_held_max_secs:
-			apply_central_impulse(Vector3.UP * jump_velocity * delta)
+			apply_central_force(Vector3.UP * jump_velocity)
 			display_jumptime = jump_held_time
 		else:
 			display_jumptime = jump_held_max_secs
@@ -165,6 +168,7 @@ func change_cam_orientation(y_rot_amt : float) -> void:
 func add_ground_count() -> void:
 	ground_bodies += 1
 	is_on_floor = true
+	jump_amount = total_jumps
 
 
 func remove_ground_count() -> void:
