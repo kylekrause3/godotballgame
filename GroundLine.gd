@@ -20,8 +20,8 @@ func _process(delta):
 	
 	var collision_point = self.get_collision_point()
 	if self.is_colliding() && do_draw:
-		if target.position.y > collision_point.y:
-			LineDrawer.DrawLine(target.position, collision_point, line_color)
+		if target.global_position.y > collision_point.y:
+			LineDrawer.DrawLine(target.global_position - Vector3(0, 1.5, 0), collision_point, line_color) # ball rad is 1.5
 		LineDrawer.DrawSquare(collision_point, 1.0, line_color)
 
 

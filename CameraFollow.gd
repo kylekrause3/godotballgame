@@ -22,11 +22,11 @@ var last_addpos : Vector3 = Vector3.ZERO
 
 var collision_mask = 0b00000000_00000000_00000000_00000001
 
-@onready var desired_fov = self.fov 
+@onready var desired_fov = self.fov
 
 func _ready():
 	if target == null:
-		target.position = self.position
+		target.global_position = self.global_position
 	self.rotation = target.rotation
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -35,20 +35,16 @@ func _ready():
 
 
 func _process(delta):
-	self.position = target.position
+	self.global_position = target.global_position
 	var backward = get_backward(self.rotation)
 	
-	raycast.position = target.position
+	raycast.global_position = target.global_position
 	raycast.target_position = Vector3(0, 0, 1)
 	raycast.scale = Vector3(1, 1, orbit_radius)
-	'ret = ret.rotated(Vector3(1, 0, 0), rot.x)
-	ret = ret.rotated(Vector3(0, 1, 0), rot.y)'
 	raycast.rotation = Vector3(self.rotation.x, self.rotation.y, 0)
 	if(raycast.is_colliding()):
-		var distance = target.position.distance_to(raycast.get_collision_point())
+		var distance = target.global_position.distance_to(raycast.get_collision_point())
 		self.position += distance * backward
-		
-		# self.position += raycast.get_collision_point()		
 	else:
 		self.position += orbit_radius * backward
 	
