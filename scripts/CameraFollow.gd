@@ -5,9 +5,10 @@ extends Camera3D
 @export var view_sensitivity : float = 1.0
 @export var orient_target : bool = true
 @export var raycast : RayCast3D
-@export var zoom_fov : bool = false
+@export var zoom_fov_instead_of_distance : bool = false
 @export var zoom_amount : float = 0.5
 @export var fov_change_rate : float = 100
+@export var camera_acceleration : float = 10
 
 var mouse_input : Vector2 = Vector2.ZERO
 var view_sensitivity_scalar : float = 0.25
@@ -19,6 +20,7 @@ var ground_body : Node = null
 
 var addpos : Vector3 = Vector3.ZERO
 var last_addpos : Vector3 = Vector3.ZERO
+var lastpos : Vector3 = Vector3.ZERO
 
 var collision_mask = 0b00000000_00000000_00000000_00000001
 
@@ -27,23 +29,26 @@ var collision_mask = 0b00000000_00000000_00000000_00000001
 func _ready():
 	if target == null:
 		target.global_position = self.global_position
+	lastpos = target.global_position
 	self.rotation = target.rotation
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	view_sensitivity *= view_sensitivity_scalar
-	raycast.add_exception(target)
+	
 
 
 func _process(delta):
+	#self.global_position = lastpos.lerp(target.global_position, camera_acceleration * delta)
 	self.global_position = target.global_position
+	lastpos = self.global_position
 	var backward = get_backward(self.rotation)
 	
-	raycast.global_position = target.global_position
+	raycast.global_position = self.global_position
 	raycast.target_position = Vector3(0, 0, 1)
 	raycast.scale = Vector3(1, 1, orbit_radius)
 	raycast.rotation = Vector3(self.rotation.x, self.rotation.y, 0)
 	if(raycast.is_colliding()):
-		var distance = target.global_position.distance_to(raycast.get_collision_point())
+		var distance = self.global_position.distance_to(raycast.get_collision_point())
 		self.position += distance * backward
 	else:
 		self.position += orbit_radius * backward
@@ -69,15 +74,13 @@ func _input(event):
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 				do_mouse_movement = true
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			if zoom_fov:
-				self.fov -= zoom_amount
+			if zoom_fov_instead_of_distance:
 				desired_fov -= zoom_amount
 			else:
 				if orbit_radius - zoom_amount > 0:
 					orbit_radius -= zoom_amount
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			if zoom_fov:
-				self.fov += zoom_amount
+			if zoom_fov_instead_of_distance:
 				desired_fov += zoom_amount
 			else:
 				orbit_radius += zoom_amount

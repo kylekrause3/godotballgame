@@ -1,9 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://qykwxlkhnxy0"]
+[gd_scene load_steps=12 format=3 uid="uid://qykwxlkhnxy0"]
 
-[ext_resource type="Script" path="res://CameraFollow.gd" id="2_awyvt"]
-[ext_resource type="Script" path="res://GroundCheck.gd" id="3_nf08y"]
-[ext_resource type="Script" path="res://player_movement.gd" id="3_nub3k"]
-[ext_resource type="Script" path="res://GroundLine.gd" id="4_p8gwd"]
+[ext_resource type="Script" path="res://scripts/CameraFollow.gd" id="2_awyvt"]
+[ext_resource type="Script" path="res://scripts/GroundCheck.gd" id="3_nf08y"]
+[ext_resource type="Script" path="res://scripts/PlayerMovement.gd" id="3_nub3k"]
+[ext_resource type="Script" path="res://scripts/GroundLine.gd" id="4_p8gwd"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i5n7i"]
+bounce = 0.3
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_vy6pb"]
 noise_type = 3
@@ -39,6 +42,7 @@ font_size = 50
 
 [node name="RBPlayer" type="RigidBody3D" parent="." node_paths=PackedStringArray("velocity_label", "jumptime_label", "ground_line", "camera")]
 collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_i5n7i")
 gravity_scale = 1.85
 continuous_cd = true
 script = ExtResource("3_nub3k")

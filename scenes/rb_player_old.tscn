@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b1x8gngfgsham"]
 
-[ext_resource type="Script" path="res://player_movement.gd" id="1_crs0f"]
+[ext_resource type="Script" path="res://scripts/PlayerMovement.gd" id="1_crs0f"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_poa17"]
 noise_type = 3

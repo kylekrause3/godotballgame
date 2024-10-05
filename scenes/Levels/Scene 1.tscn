@@ -1,8 +1,18 @@
-[gd_scene load_steps=21 format=3 uid="uid://dy6ow1x3nitpe"]
+[gd_scene load_steps=20 format=3 uid="uid://dy6ow1x3nitpe"]
 
-[ext_resource type="PackedScene" uid="uid://cdxgs6xtn4sb1" path="res://world.tscn" id="1_n61jw"]
-[ext_resource type="Script" path="res://PlayerSpawn.gd" id="2_lsye4"]
-[ext_resource type="PackedScene" uid="uid://qykwxlkhnxy0" path="res://player.tscn" id="3_4brdu"]
+[ext_resource type="Script" path="res://scripts/PlayerSpawn.gd" id="2_xuj3c"]
+[ext_resource type="PackedScene" uid="uid://qykwxlkhnxy0" path="res://scenes/player.tscn" id="3_h6pie"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lu257"]
+
+[sub_resource type="Sky" id="Sky_6v7cn"]
+sky_material = SubResource("ProceduralSkyMaterial_lu257")
+
+[sub_resource type="Environment" id="Environment_4ecyc"]
+background_mode = 2
+sky = SubResource("Sky_6v7cn")
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
 
 [sub_resource type="Gradient" id="Gradient_au567"]
 
@@ -48,20 +58,16 @@ size = Vector3(26.625, 37.95, 27.315)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w2nth"]
 points = PackedVector3Array(0, 18.975, 13.6575, 0, 18.975, -13.6575, -13.3125, -18.975, 13.6575, 13.3125, -18.975, 13.6575, 13.3125, -18.975, -13.6575, -13.3125, -18.975, -13.6575)
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lu257"]
-
-[sub_resource type="Sky" id="Sky_h30fw"]
-sky_material = SubResource("ProceduralSkyMaterial_lu257")
-
-[sub_resource type="Environment" id="Environment_4ecyc"]
-background_mode = 2
-sky = SubResource("Sky_h30fw")
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.01
-
 [node name="Scene 1" type="Node3D"]
 
-[node name="World" parent="." instance=ExtResource("1_n61jw")]
+[node name="World" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World"]
+environment = SubResource("Environment_4ecyc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, -0.79451, 0.607251, 0, -0.607251, -0.79451, 0, 0, 0)
+shadow_enabled = true
 
 [node name="Floor" type="CSGBox3D" parent="World"]
 transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
@@ -76,7 +82,7 @@ shape = SubResource("BoxShape3D_tf7e4")
 [node name="SPAWN_camray" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.222493, 10.7624, 96.7244)
 visible = false
-script = ExtResource("2_lsye4")
+script = ExtResource("2_xuj3c")
 player = NodePath("../../Player")
 
 [node name="camera raycast test zone" type="Node" parent="World"]
@@ -209,7 +215,7 @@ material = SubResource("StandardMaterial3D_lmdwx")
 [node name="SPAWN_jump" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84.225, 2.28544, -12.1551)
 visible = false
-script = ExtResource("2_lsye4")
+script = ExtResource("2_xuj3c")
 player = NodePath("../../Player")
 
 [node name="jump height test zone" type="Node" parent="World"]
@@ -310,7 +316,7 @@ shape = SubResource("BoxShape3D_q3km0")
 
 [node name="SPAWN_tt" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.453239, 4.72572, -42.5933)
-script = ExtResource("2_lsye4")
+script = ExtResource("2_xuj3c")
 player = NodePath("../../Player")
 
 [node name="Teeter Totter MAKE SURE MASK IS ON PLAYER" type="Node" parent="World"]
@@ -349,12 +355,5 @@ use_collision = true
 collision_mask = 0
 size = Vector3(15.5973, 1, 28.6025)
 
-[node name="Player" parent="." instance=ExtResource("3_4brdu")]
+[node name="Player" parent="." instance=ExtResource("3_h6pie")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_4ecyc")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.79451, 0.607251, 0, -0.607251, -0.79451, 0, 0, 0)
-shadow_enabled = true

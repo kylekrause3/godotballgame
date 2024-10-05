@@ -2,7 +2,7 @@ extends RayCast3D
 
 @export var target : Node3D
 
-var LineDrawer = preload("res://DrawLine3D.gd").new()
+var LineDrawer = preload("res://scripts/DrawLine3D.gd").new()
 var do_draw : bool = false
 
 var line_color : Color = Color(0, 255, 100)

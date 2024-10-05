@@ -1,8 +1,7 @@
 # todo:
 #  - when not grounded, can change rotation in direction of wasd, can add sort of sm64 backflip this way as well
 # 
-#  - monitor if just_grounded , if just_grounded && ctrl_held, add ground-pound window:
-#      (grace period where you can jump regardless of ground [if ground pounded physical object and it moved] and jump slightly higher)
+#  - post-slam jump height increase (ground pound jump)
 
 extends RigidBody3D
 

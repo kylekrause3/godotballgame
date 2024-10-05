@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwnojf5gwbssm"]
+
+[ext_resource type="Material" uid="uid://dkuf50nqh212g" path="res://assets/prototype materials/dark.tres" id="1_jefw5"]
+[ext_resource type="PackedScene" uid="uid://qykwxlkhnxy0" path="res://scenes/player.tscn" id="2_23hh4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_28cta"]
+
+[sub_resource type="Sky" id="Sky_h30fw"]
+sky_material = SubResource("ProceduralSkyMaterial_28cta")
+
+[sub_resource type="Environment" id="Environment_w48y8"]
+background_mode = 2
+sky = SubResource("Sky_h30fw")
+volumetric_fog_density = 0.01
+
+[node name="Prototype1" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Environment" type="Node3D" parent="World"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World/Environment"]
+environment = SubResource("Environment_w48y8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World/Environment"]
+transform = Transform3D(1, 0, 0, 0, -0.79451, 0.607251, 0, -0.607251, -0.79451, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Geometry" type="Node3D" parent="World"]
+
+[node name="Floor" type="CSGBox3D" parent="World/Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.382295, 0.5)
+material_override = ExtResource("1_jefw5")
+use_collision = true
+size = Vector3(140, 1, 20)
+
+[node name="Player" parent="." instance=ExtResource("2_23hh4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
