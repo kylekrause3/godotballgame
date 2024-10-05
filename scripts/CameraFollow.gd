@@ -1,8 +1,11 @@
+# todo: camera acceleration with controller
+
 extends Camera3D
 
 @export var target : Node
 @export var orbit_radius : float = 7.0
 @export var view_sensitivity : float = 1.0
+@export var controller_sensitivity : float = 50
 @export var orient_target : bool = true
 @export var raycast : RayCast3D
 @export var zoom_fov_instead_of_distance : bool = false
@@ -12,6 +15,7 @@ extends Camera3D
 
 var mouse_input : Vector2 = Vector2.ZERO
 var view_sensitivity_scalar : float = 0.25
+var controller_sensitivity_scalar : float = 3.5
 
 var do_mouse_movement : bool = true
 
@@ -21,6 +25,7 @@ var ground_body : Node = null
 var addpos : Vector3 = Vector3.ZERO
 var last_addpos : Vector3 = Vector3.ZERO
 var lastpos : Vector3 = Vector3.ZERO
+var joystick : Vector2 = Vector2.ZERO
 
 var collision_mask = 0b00000000_00000000_00000000_00000001
 
@@ -34,10 +39,17 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	view_sensitivity *= view_sensitivity_scalar
+	controller_sensitivity *= controller_sensitivity_scalar
 	
 
 
 func _process(delta):
+	joystick = Input.get_vector("cam_left","cam_right","cam_down","cam_up")
+	if joystick != Vector2.ZERO:
+		do_rotation(joystick.y * delta * controller_sensitivity, joystick.x * delta * controller_sensitivity)
+		if orient_target:
+			target.change_cam_orientation(-joystick.x * delta * controller_sensitivity)
+	
 	#self.global_position = lastpos.lerp(target.global_position, camera_acceleration * delta)
 	self.global_position = target.global_position
 	lastpos = self.global_position
@@ -61,9 +73,7 @@ func _process(delta):
 
 func _input(event):	
 	if event is InputEventMouseMotion and do_mouse_movement:
-		self.rotation_degrees.x -= event.relative.y * view_sensitivity
-		self.rotation_degrees.x = clamp(self.rotation_degrees.x, -89, 89)
-		self.rotation_degrees.y -= event.relative.x * view_sensitivity
+		do_rotation(-event.relative.y * view_sensitivity, event.relative.x * view_sensitivity)
 		
 		if orient_target: # ensure that the player knows where the camera is facing so that input direction and result movement match
 			target.change_cam_orientation(-event.relative.x * view_sensitivity)
@@ -89,6 +99,12 @@ func _input(event):
 			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 				do_mouse_movement = false
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func do_rotation(xrot : float, yrot : float):
+	self.rotation_degrees.x += xrot
+	self.rotation_degrees.x = clamp(self.rotation_degrees.x, -89, 89)
+	self.rotation_degrees.y -= yrot
 
 
 func get_backward(rot : Vector3) -> Vector3:

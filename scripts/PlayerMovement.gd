@@ -55,8 +55,8 @@ func _physics_process(delta):
 	move_input = Input.get_vector("left","right","down","up")
 	dir += move_input.x * Vector3.RIGHT
 	dir += move_input.y * Vector3.FORWARD
-	dir = dir.rotated(Vector3(0, 1, 0), deg_to_rad(camera_rotation)) # rotate wish dir by camera location
-	dir = dir.normalized()
+	dir = dir.rotated(Vector3.UP, deg_to_rad(camera_rotation)) # rotate wish dir by camera location
+	# dir = dir.normalized() # todo: this should be only on when wasd
 	
 	var brake_help : float = 1.0
 	# dot product between normalized wish direction and velocity direction for braking

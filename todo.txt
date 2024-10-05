@@ -1,4 +1,5 @@
-see player_movement.gd
+see PlayerMovement.gd
+see CameraFollow.gd
 
 use physics material for friction
 

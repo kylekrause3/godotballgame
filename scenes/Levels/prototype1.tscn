@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwnojf5gwbssm"]
+[gd_scene load_steps=9 format=3 uid="uid://cwnojf5gwbssm"]
 
 [ext_resource type="Material" uid="uid://dkuf50nqh212g" path="res://assets/prototype materials/dark.tres" id="1_jefw5"]
 [ext_resource type="PackedScene" uid="uid://qykwxlkhnxy0" path="res://scenes/player.tscn" id="2_23hh4"]
+[ext_resource type="Script" path="res://scripts/PlayerSpawn.gd" id="2_ol8hq"]
+[ext_resource type="Material" uid="uid://i2erveger8kt" path="res://assets/prototype materials/orange.tres" id="2_tai8i"]
+[ext_resource type="Material" uid="uid://d22cdhu05woe6" path="res://assets/prototype materials/purple.tres" id="4_8qaxf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_28cta"]
 
@@ -29,10 +32,113 @@ shadow_enabled = true
 [node name="Geometry" type="Node3D" parent="World"]
 
 [node name="Floor" type="CSGBox3D" parent="World/Geometry"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.382295, 0.5)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 285, -0.382295, 222.5)
 material_override = ExtResource("1_jefw5")
 use_collision = true
-size = Vector3(140, 1, 20)
+size = Vector3(266, 1, 20)
+
+[node name="Floor2" type="CSGBox3D" parent="World/Geometry"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 285, -0.382295, -467.5)
+material_override = ExtResource("1_jefw5")
+use_collision = true
+size = Vector3(266, 1, 20)
+
+[node name="Ramp" type="CSGCombiner3D" parent="World/Geometry"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 284.5, -0.396858, 116)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="World/Geometry/Ramp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 2, 0.5)
+size = Vector3(7, 3, 20)
+material = ExtResource("1_jefw5")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="World/Geometry/Ramp"]
+transform = Transform3D(1.4, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 13, 5, 0)
+operation = 2
+radius = 5.0
+height = 22.0
+sides = 14
+material = ExtResource("2_tai8i")
+
+[node name="Stopper" type="CSGBox3D" parent="World/Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 285, 4.5, -600)
+material_override = ExtResource("1_jefw5")
+use_collision = true
+size = Vector3(21, 10, 1)
+
+[node name="Parkour" type="CSGCombiner3D" parent="World/Geometry"]
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="World/Geometry/Parkour"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 303, 4.5, -587.5)
+material_override = ExtResource("1_jefw5")
+size = Vector3(3, 3, 1)
+material = ExtResource("4_8qaxf")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="World/Geometry/Parkour"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 330, 23.5, -605.5)
+material_override = ExtResource("1_jefw5")
+size = Vector3(9, 9, 1)
+material = ExtResource("4_8qaxf")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="World/Geometry/Parkour"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 277, 41.5, -605)
+material_override = ExtResource("1_jefw5")
+size = Vector3(55, 2, 1)
+material = ExtResource("4_8qaxf")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="World/Geometry/Parkour"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 230.5, 41.5, -604.5)
+material_override = ExtResource("1_jefw5")
+size = Vector3(38, 1, 1)
+material = ExtResource("4_8qaxf")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="World/Geometry/Parkour"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 191.5, 41.5, -604.26)
+material_override = ExtResource("1_jefw5")
+size = Vector3(40, 0.5, 1)
+material = ExtResource("4_8qaxf")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="World/Geometry/Parkour"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 151.5, 41.5, -604.26)
+material_override = ExtResource("1_jefw5")
+size = Vector3(40, 0.25, 1)
+material = ExtResource("4_8qaxf")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="World/Geometry/Parkour"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 112.5, 41.5, -604.26)
+material_override = ExtResource("1_jefw5")
+size = Vector3(40, 0.1, 1)
+material = ExtResource("4_8qaxf")
+
+[node name="Curvy Tightrope" type="CSGCombiner3D" parent="World/Geometry"]
+use_collision = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="World/Geometry/Curvy Tightrope"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 303, 40, -652)
+radius = 32.0
+height = 0.5
+sides = 32
+material = ExtResource("1_jefw5")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="World/Geometry/Curvy Tightrope"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 303, 40, -652.665)
+operation = 2
+radius = 31.0
+height = 6.0
+sides = 32
+material = ExtResource("4_8qaxf")
+
+[node name="SPAWN" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 284.5, 4, 285)
+visible = false
+script = ExtResource("2_ol8hq")
+player = NodePath("../../Player")
+
+[node name="SPAWN_parkour" type="Node3D" parent="World" node_paths=PackedStringArray("player")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 287.5, 4, -590)
+script = ExtResource("2_ol8hq")
+player = NodePath("../../Player")
 
 [node name="Player" parent="." instance=ExtResource("2_23hh4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
